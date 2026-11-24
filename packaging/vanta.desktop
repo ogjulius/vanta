@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=VANTA
+GenericName=Game Launcher
+Comment=One library for Steam, Epic, GOG, itch.io and local games
+Exec=vanta
+Icon=vanta
+Terminal=false
+Categories=Game;
+Keywords=games;launcher;steam;epic;gog;itch;library;
+StartupWMClass=vanta

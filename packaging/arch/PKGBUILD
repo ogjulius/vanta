@@ -1,0 +1,46 @@
+# Maintainer: ogjulius
+pkgname=vanta
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Unified Linux-first game launcher for Steam, Epic, GOG, itch.io and local games"
+arch=('x86_64')
+url="https://github.com/ogjulius/vanta"
+license=('unknown')
+depends=('webkit2gtk-4.1' 'gtk3' 'libsoup3' 'glib2' 'cairo' 'gdk-pixbuf2' 'hicolor-icon-theme')
+makedepends=('git' 'rust' 'cargo' 'nodejs' 'npm')
+optdepends=(
+  'steam: Steam library integration'
+  'legendary: Epic Games integration'
+  'wine: run Windows games outside a store client'
+  'gamemode: gamemoderun wrapper'
+  'mangohud: performance overlay wrapper'
+  'nvidia-utils: NVIDIA GPU metrics'
+)
+options=('!lto')
+source=("$pkgname::git+$url.git#tag=v$pkgver")
+sha256sums=('SKIP')
+
+build() {
+  cd "$pkgname"
+  export CARGO_HOME="$srcdir/cargo-home"
+  npm ci --no-audit --no-fund
+  npm exec -- tauri build --no-bundle
+}
+
+check() {
+  cd "$pkgname/src-tauri"
+  export CARGO_HOME="$srcdir/cargo-home"
+  cargo test --release --lib
+}
+
+package() {
+  cd "$pkgname"
+  install -Dm755 src-tauri/target/release/vanta "$pkgdir/usr/bin/vanta"
+  install -Dm644 packaging/vanta.desktop "$pkgdir/usr/share/applications/vanta.desktop"
+  install -Dm644 src-tauri/icons/32x32.png "$pkgdir/usr/share/icons/hicolor/32x32/apps/vanta.png"
+  install -Dm644 src-tauri/icons/64x64.png "$pkgdir/usr/share/icons/hicolor/64x64/apps/vanta.png"
+  install -Dm644 src-tauri/icons/128x128.png "$pkgdir/usr/share/icons/hicolor/128x128/apps/vanta.png"
+  install -Dm644 src-tauri/icons/128x128@2x.png "$pkgdir/usr/share/icons/hicolor/256x256/apps/vanta.png"
+  install -Dm644 src-tauri/icons/icon.png "$pkgdir/usr/share/icons/hicolor/512x512/apps/vanta.png"
+  install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+}
