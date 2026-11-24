@@ -239,3 +239,7 @@ Coverage includes:
 
 ## Not implemented (future releases)
 Cloud accounts, social features, achievements, a plugin marketplace, controller/Big Picture UI, IGDB metadata (the artwork system is provider-based, so IGDB could be added as another provider), a system tray icon and UI translations.
+
+## License
+
+[MIT](LICENSE) © 2026 ogjulius

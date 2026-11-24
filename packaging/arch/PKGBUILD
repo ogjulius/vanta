@@ -5,7 +5,7 @@ pkgrel=1
 pkgdesc="Unified Linux-first game launcher for Steam, Epic, GOG, itch.io and local games"
 arch=('x86_64')
 url="https://github.com/ogjulius/vanta"
-license=('unknown')
+license=('MIT')
 depends=('webkit2gtk-4.1' 'gtk3' 'libsoup3' 'glib2' 'cairo' 'gdk-pixbuf2' 'hicolor-icon-theme')
 makedepends=('git' 'rust' 'cargo' 'nodejs' 'npm')
 optdepends=(
@@ -43,4 +43,7 @@ package() {
   install -Dm644 src-tauri/icons/128x128@2x.png "$pkgdir/usr/share/icons/hicolor/256x256/apps/vanta.png"
   install -Dm644 src-tauri/icons/icon.png "$pkgdir/usr/share/icons/hicolor/512x512/apps/vanta.png"
   install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+  # v0.1.0 predates the LICENSE file; later tags include it.
+  [ -f LICENSE ] && install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+  true
 }
